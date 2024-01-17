@@ -1,7 +1,8 @@
 # fabric-demo
 
-在查找了大大小小众多pytorch训练框架后，根据自己的习惯，主要基于lightning-fabric实现了一个简单灵活的pytorch训练框架/模板。共两百多行，不使用trainer，方便随意添加修改训练逻辑。实现功能有：
+在查找了大大小小众多pytorch训练框架后，根据自己的习惯，主要基于lightning-fabric实现了一个简单灵活的pytorch训练框架/模板。共两百多行，不使用trainer，方便随意添加修改训练逻辑。
 
+实现功能有：
 *   训练设备切换：基于fabric，不修改运行代码而根据配置或自动选择cpu、gpu、tpu、mps等设备运行。支持DP、本机DDP和多节点DDP。
 *   自动batch size批大小和learning rate学习率调整：实际batch size根据设定的effective batch size和world size（总设备数）自动计算，保证不同设备数量下得到一致的结果。learning rate调整方案有linear线性和square root平方根两种。
 *   实验管理
@@ -37,8 +38,9 @@ python test.py --out_dir train_out
 
 * * *
 
-After searching for many pytorch training frameworks, large and small, based on my own habits, I implemented a simple and flexible pytorch training framework/template mainly based on lightning-fabric. Only 200 lines in total, and no trainer is used, making it easy to add and modify training logic at will. The implemented functions are：
+After searching for many pytorch training frameworks, large and small, based on my own habits, I implemented a simple and flexible pytorch training framework/template mainly based on lightning-fabric. Only 200 lines in total, and no trainer is used, making it easy to add and modify training logic at will. 
 
+The implemented functions are：
 *   Training device switching: Based on fabric, it does not need to modify the running code, but selects cpu, gpu, tpu, mps and other devices to run according to the configuration file or command line options. Supports DP, single-node DDP and multi-node DDP. 
 *   Automatic batch size and learning rate adjustment: The actual batch size is automatically calculated based on the set effective batch size and world size (total number of devices) to ensure consistent results under different numbers of devices. There are two learning rate adjustment methods: linear and square root. 
 *   Experiment management
