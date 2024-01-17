@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Dec 21 17:02:30 2023
-
-@author: yunlu
-"""
 import torch.utils.data
 from torchvision import datasets, transforms
 import multiprocessing

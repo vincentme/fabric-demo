@@ -4,6 +4,7 @@ from typing import List
 from simple_parsing.helpers import Serializable
 from simple_parsing import choice, field
 
+
 @dataclass
 class TrainConfig(Serializable):
     """Help string for training config"""
