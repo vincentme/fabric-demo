@@ -1,5 +1,4 @@
 # fabric-demo
-A simple and flexible pytorch training framework/template based on lightning-fabric
 
 在查找了大大小小众多pytorch训练框架后，根据自己的习惯，主要基于lightning-fabric实现了一个简单灵活的pytorch训练框架/模板。共两百多行，不使用trainer，方便随意添加修改训练逻辑。实现功能有：
 
