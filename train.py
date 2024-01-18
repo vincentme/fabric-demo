@@ -59,10 +59,9 @@ def main(fabric, config):
     train_dataloader, val_dataloader = fabric.setup_dataloaders(train_dataloader, val_dataloader)
     num_iter_per_epoch = len(train_dataloader)
     
+    # model will be created directly on device
     with fabric.init_module():
-        # models will be created directly on device
         model = Net()
-    fabric.print(f"Total parameters: {num_parameters(model):,}")
     # model = torch.compile(model)
     
     if config.lr_scaling_rule == 'linear':
