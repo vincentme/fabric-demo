@@ -263,7 +263,7 @@ if __name__ == "__main__":
 
     try:
         fabric.launch(main, config) # for launching fabric in notebook or ipython consol, see https://lightning.ai/docs/fabric/stable/fundamentals/notebooks.html
-    except:
+    except KeyboardInterrupt:
         for logger in fabric.loggers:
             if isinstance(logger, L.pytorch.loggers.wandb.WandbLogger):
                 logger.experiment.finish(exit_code = 1)
