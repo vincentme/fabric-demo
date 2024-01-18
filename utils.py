@@ -24,6 +24,6 @@ def choose_logger(logger_name: str, log_dir, project: Optional[str] = None, comm
     else:
         raise ValueError(f"`logger={logger_name}` is not a valid option.")
 
-def get_checkpoint_files(out_dir, checkpoint_dir):
-    checkpoint_files = sorted(glob.glob(os.path.join(out_dir, checkpoint_dir, "*.ckpt")))
+def get_checkpoint_files(checkpoint_dir):
+    checkpoint_files = sorted(glob.glob(os.path.join(checkpoint_dir, "*.ckpt")))
     return checkpoint_files

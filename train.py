@@ -54,7 +54,6 @@ def lr_lambda(epoch, warmup, gamma):
 
 def main(fabric, config):
     seed_everything(config.seed, workers = True)
-    checkpoint_dir = 'checkpoints'
     
     train_dataloader, val_dataloader = get_dataloaders(fabric, config)
     train_dataloader, val_dataloader = fabric.setup_dataloaders(train_dataloader, val_dataloader)
@@ -79,7 +78,7 @@ def main(fabric, config):
 
     state = {"model": model, "optimizer": optimizer, "config": config, "iter_num": 0, 'epoch_num':0}
     
-    checkpoint_files = get_checkpoint_files(config.out_dir, checkpoint_dir)
+    checkpoint_files = get_checkpoint_files(config.checkpoint_dir)
     if config.resume and len(checkpoint_files) > 0:
         resume_file = max(checkpoint_files, key=(lambda p: int(p.split('-')[-1].split('.')[0])))
         fabric.load(resume_file, state)
@@ -188,14 +187,14 @@ def main(fabric, config):
 
         # checkpointing
         if config.checkpoint_frequency is not None and epoch % config.checkpoint_frequency == 0:
-            checkpoint_path = os.path.join(config.out_dir, checkpoint_dir, f"epoch-{epoch:05d}.ckpt")
+            checkpoint_path = os.path.join(config.checkpoint_dir, f"epoch-{epoch:05d}.ckpt")
             fabric.print(f"Saving checkpoint to {checkpoint_path}")
             fabric.save(checkpoint_path, state)
             fabric.barrier()
             
             if fabric.global_rank == 0:
                 if config.num_checkpoint_keep is not None:
-                    candidate_checkpoint_files = get_checkpoint_files(config.out_dir, checkpoint_dir)
+                    candidate_checkpoint_files = get_checkpoint_files(config.checkpoint_dir)
                     num_checkpoint_files = len(candidate_checkpoint_files)
                     
                     if num_checkpoint_files > config.num_checkpoint_keep:
@@ -243,8 +242,9 @@ if __name__ == "__main__":
     loggers = [choose_logger(logger_name, log_dir = log_dir, project = config.project, comment = config.comment) for logger_name in config.logger_name]
 
     # create output folders
+    config.checkpoint_dir = os.path.join(config.out_dir, 'checkpoints')
     os.makedirs(config.out_dir, exist_ok=True)
-    os.makedirs(os.path.join(config.out_dir, 'checkpoints'), exist_ok=True)
+    os.makedirs(config.checkpoint_dir, exist_ok=True)
     for logger in loggers:
         if isinstance(logger, L.fabric.loggers.CSVLogger):
             os.makedirs(os.path.join(config.out_dir, 'logs/csv'), exist_ok=True)
