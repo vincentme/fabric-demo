@@ -191,6 +191,7 @@ def main(fabric, config):
             fabric.save(checkpoint_path, state)
             fabric.barrier()
             
+            # retain most recent num_checkpoint_keep checkpoints
             if fabric.global_rank == 0:
                 if config.num_checkpoint_keep is not None:
                     candidate_checkpoint_files = get_checkpoint_files(config.checkpoint_dir)
@@ -223,10 +224,10 @@ if __name__ == "__main__":
     parser.add_arguments(TrainConfig, dest="train")
     config = parser.parse_args().train
     
-    # prefix date and time in out_dir
     if config.resume:
         config.out_dir = config.resume
     else:
+        # prefix date and time in out_dir
         config.out_dir = f"{datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}-{config.out_dir}"
         
     # add root_dir to out_dir if set
@@ -246,11 +247,11 @@ if __name__ == "__main__":
     os.makedirs(config.checkpoint_dir, exist_ok=True)
     for logger in loggers:
         if isinstance(logger, L.fabric.loggers.CSVLogger):
-            os.makedirs(os.path.join(config.out_dir, 'logs/csv'), exist_ok=True)
+            os.makedirs(os.path.join(log_dir, 'csv'), exist_ok=True)
         elif isinstance(logger, L.fabric.loggers.TensorBoardLogger):
-            os.makedirs(os.path.join(config.out_dir, 'logs/tensorboard'), exist_ok=True)
+            os.makedirs(os.path.join(log_dir, 'tensorboard'), exist_ok=True)
         elif isinstance(logger, L.pytorch.loggers.wandb.WandbLogger):
-            os.makedirs(os.path.join(config.out_dir, 'logs/wandb'), exist_ok=True)
+            os.makedirs(os.path.join(log_dir, 'wandb'), exist_ok=True)
             
     fabric = Fabric(accelerator=config.accelerator, devices=config.devices, loggers = loggers)
     # fabric = Fabric(accelerator='cpu', devices=12, loggers = loggers)
