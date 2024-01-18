@@ -91,7 +91,7 @@ def main(fabric, config):
                 os.remove(checkpoint_file)
         fabric.barrier()
 
-    # if set log_per_epoch, then change log_interval according to it and len(dataloader)
+    # if set log_per_epoch, then change log_interval according to it
     if config.log_per_epoch:
         config.log_interval = max(round(num_iter_per_epoch/config.log_per_epoch), 1)
         fabric.print(f'set log_interval to {config.log_interval}')
@@ -114,12 +114,12 @@ def main(fabric, config):
         if isinstance(logger, (L.fabric.loggers.TensorBoardLogger, L.pytorch.loggers.wandb.WandbLogger)):
             logger.log_hyperparams(config.to_dict())
     
-    # use torchmetrics instead of manually compute the accuracy
-    train_mean_loss = MeanMetric().to(fabric.device)
-    train_running_mean_loss = RunningMean().to(fabric.device)
-    val_mean_loss = MeanMetric().to(fabric.device)
-    val_acc = Accuracy(task="multiclass", num_classes=10).to(fabric.device)
-    
+    # use torchmetrics to track loss and compute accuracy
+    with fabric.init_module():
+        train_mean_loss = MeanMetric()
+        train_running_mean_loss = RunningMean()
+        val_mean_loss = MeanMetric()
+        val_acc = Accuracy(task="multiclass", num_classes=10)
     
     fabric.barrier()
     train_t0 = time.perf_counter()
