@@ -7,7 +7,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.optim.lr_scheduler import LambdaLR
 
-from lightning.fabric import Fabric, seed_everything
+from lightning.fabric import Fabric
 import lightning as L
 
 from torchmetrics.classification import Accuracy
@@ -53,7 +53,7 @@ def lr_lambda(epoch, warmup, gamma):
         return gamma**(epoch-warmup)
 
 def main(fabric, config):
-    seed_everything(config.seed, workers = True)
+    fabric.seed_everything(config.seed, workers = True)
     
     train_dataloader, val_dataloader = get_dataloaders(fabric, config)
     train_dataloader, val_dataloader = fabric.setup_dataloaders(train_dataloader, val_dataloader)
