@@ -1,8 +1,5 @@
 import torch.utils.data
 from torchvision import datasets, transforms
-import multiprocessing
-
-num_core = multiprocessing.cpu_count()
 
 def get_dataloaders(fabric, config):
     transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
@@ -17,8 +14,8 @@ def get_dataloaders(fabric, config):
     
     config.batch_size = round(config.eff_batch_size/fabric.world_size) # using the effective batch_size to calculate the batch_size per gpu
     
-    train_dataloader = torch.utils.data.DataLoader(train_dataset,  batch_size=config.batch_size, shuffle=True, drop_last = True, num_workers = min(fabric.world_size*2, num_core), pin_memory = True)
-    val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=config.batch_size, drop_last = True, num_workers = min(fabric.world_size*2, num_core), pin_memory = True)
+    train_dataloader = torch.utils.data.DataLoader(train_dataset,  batch_size=config.batch_size, shuffle=True, drop_last = True, num_workers = 2, pin_memory = True)
+    val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=config.batch_size, drop_last = True, num_workers = 2, pin_memory = True)
 
 
     return train_dataloader, val_dataloader
