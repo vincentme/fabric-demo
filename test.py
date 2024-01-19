@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from lightning.fabric import Fabric, seed_everything
+from lightning.fabric import Fabric
 
 from torchmetrics.classification import Accuracy
 from torchmetrics.aggregation import MeanMetric
@@ -43,7 +43,7 @@ class Net(nn.Module):
 
 
 def main(fabric, config):
-    seed_everything(config.seed, workers = True)
+    fabric.seed_everything(config.seed, workers = True)
     
     train_dataloader, val_dataloader = get_dataloaders(fabric, config)
     val_dataloader = fabric.setup_dataloaders(val_dataloader)
