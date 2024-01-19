@@ -1,6 +1,8 @@
 # fabric-demo
 
-在查找了大大小小众多pytorch训练框架后，根据自己的习惯，主要基于lightning-fabric实现了一个简单灵活的pytorch训练框架/模板。共两百多行，不使用trainer，方便随意添加修改训练逻辑。
+在查找了大大小小众多pytorch训练框架后，发现并没有特别合适的。现在训练环境（cpu、gpu、ddp）、功能需求（混合精度、自动保存和恢复）越来越多，如果使用原始 pytorch 实现，那么大部分内容将是事务代码。而目前的框架如OpenMMLab和 lightning 等又追求大而全，做小修小改和对比试验容易，但是若大幅调整训练逻辑，就要深入各个 hook 里。现在另一个趋势是人们意识到小而精的辅助框架可能是研究者更需要的，如 huggingface 的 accelerate 和 lightning 的 fabric 正是其代表。
+
+因此，我根据自己的习惯，主要基于lightning-fabric实现了一个简单灵活的pytorch训练框架/模板。共两百多行，不使用trainer，方便随意添加修改训练逻辑。
 
 实现功能有：
 *  训练设备切换和mixed precision混合精度：基于fabric，不修改运行代码而根据配置或自动选择cpu、gpu、tpu、mps等设备运行。支持DP、本机DDP和多节点DDP。支持mixed precision（32，16，16-mixed，bf16-mixed等）。
@@ -38,7 +40,9 @@ python test.py --out_dir train_out
 
 * * *
 
-After searching for many pytorch training frameworks, large and small, based on my own habits, I implemented a simple and flexible pytorch training framework/template mainly based on lightning-fabric. Only 200 lines in total, and no trainer is used, making it easy to add and modify training logic at will. 
+After searching for many pytorch training frameworks, large and small, I found that there was no particularly suitable one. There are now more and more training environments (cpu, gpu, ddp), functional requirements (mixed precision, automatic save and restore), and if you use the original pytorch implementation, most of it will be transactional code. Current frameworks such as OpenMMLab and Lightning are large and comprehensive. It is easy to make small modifications and comparative experiments. However, if the training logic is significantly adjusted, it is necessary to go deep into each hook. Another trend now is that people realize that small and sophisticated auxiliary frameworks may be what researchers need more, such as huggingface's accelerate and lightning's fabric are their representatives. 
+
+Therefore, based on my own habits, I implemented a simple and flexible pytorch training framework/template mainly based on lightning-fabric. Only 200 lines in total, and no trainer is used, making it easy to add and modify training logic at will.  
 
 The implemented functions are：
 *  Training device switching and mixed precision: Based on fabric, it does not need to modify the running code, but selects cpu, gpu, tpu, mps and other devices to run according to the configuration file or command line options. Supports DP, single-node DDP and multi-node DDP. Support mixed precision(32, 16, 16-mixed, bf16-mixed, etc.). 
