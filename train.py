@@ -253,7 +253,7 @@ if __name__ == "__main__":
         elif isinstance(logger, L.pytorch.loggers.wandb.WandbLogger):
             os.makedirs(os.path.join(log_dir, 'wandb'), exist_ok=True)
             
-    fabric = Fabric(accelerator=config.accelerator, devices=config.devices, loggers = loggers)
+    fabric = Fabric(accelerator=config.accelerator, devices=config.devices, loggers = loggers, precision = config.precision)
     # fabric = Fabric(accelerator='cpu', devices=12, loggers = loggers)
     # fabric = Fabric(accelerator='gpu', devices=2, loggers = loggers)
     
