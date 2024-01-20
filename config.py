@@ -19,7 +19,7 @@ class TrainConfig(Serializable):
     resume: str = None
     seed: int = 42 # random seed
     fast_run: bool = False
-    precision: str = 'auto' # "32-true", "16-mixed", "bf16-mixed", etc. 
+    precision: str = '32-true' # "32-true", "16-mixed", "bf16-mixed", etc. 
     
     ## data
     dataset_path: str = 'dataset'
