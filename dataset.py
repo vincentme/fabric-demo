@@ -14,8 +14,8 @@ def get_dataloaders(fabric, config):
     
     config.batch_size = round(config.eff_batch_size/fabric.world_size) # using the effective batch_size to calculate the batch_size per gpu
     
-    train_dataloader = torch.utils.data.DataLoader(train_dataset,  batch_size=config.batch_size, shuffle=True, drop_last = True, num_workers = 2, pin_memory = True)
-    val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=config.batch_size, drop_last = True, num_workers = 2, pin_memory = True)
+    train_dataloader = torch.utils.data.DataLoader(train_dataset,  batch_size=config.batch_size, shuffle=True, drop_last = True, num_workers = 2, multiprocessing_context='spawn', pin_memory = True)
+    val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=config.batch_size, drop_last = True, num_workers = 2, multiprocessing_context='spawn', pin_memory = True)
 
 
     return train_dataloader, val_dataloader
