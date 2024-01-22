@@ -8,8 +8,8 @@ from simple_parsing import choice, field
 @dataclass
 class TrainConfig(Serializable):
     """Help string for training config"""
-    accelerator: str = "auto"
-    devices: str = "auto"
+    accelerator: str = "auto" # "cpu", "gpu", "cuda", "mps", "tpu"
+    devices: str = "auto" # number of devices or list of index
     project: str = 'MNIST-cls'
     comment: str = None
     root_dir: str = None # where to store out_dir

@@ -32,6 +32,12 @@ pip install -U lightning torchmetrics simple_parsing tensorboard wandb
 python train.py --log_per_epoch 4 --logger_name  tensorboard csv  --checkpoint_frequency 5  --comment "concise comment for current run"
 ```
 
+使用本机8个GPU（DistributedDataParallel）训练
+
+```text-x-python
+python train.py --accelerator cuda --devices 8
+```
+
 测试运行test.py，须传入先前的out\_dir（包含日期时间）
 
 ```text-x-sh
@@ -70,6 +76,12 @@ Training by run train.py. You can override the option and add comments. 
 
 ```text-x-python
 python train.py --log_per_epoch 4 --logger_name  tensorboard csv  --checkpoint_frequency 5  --comment "concise comment for current run"
+```
+
+train with eight local GPU(DistributedDataParallel)
+
+```text-x-python
+python train.py --accelerator cuda --devices 8
 ```
 
 Testing by run test.py. out\_dir should be specified(data and time included).  
