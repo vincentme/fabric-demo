@@ -25,8 +25,6 @@ class Net(nn.Module):
         super().__init__()
         self.conv1 = nn.Conv2d(1, 32, 3, 1)
         self.conv2 = nn.Conv2d(32, 64, 3, 1)
-        self.conv1 = nn.Conv2d(1, 256, 3, 1)
-        self.conv2 = nn.Conv2d(256, 64, 3, 1)
         self.dropout1 = nn.Dropout(0.25)
         self.dropout2 = nn.Dropout(0.5)
         self.fc1 = nn.Linear(9216, 128)
@@ -180,7 +178,7 @@ def main(fabric, config):
         val_acc.reset()
         
         # printing for each epoch
-        fabric.print(f"epoch {epoch}: train(loss={cur_train_mean_loss:.2e}")
+        fabric.print(f"epoch {epoch}: train(loss={cur_train_mean_loss:.2e})")
         fabric.print(f"validation(loss={cur_val_mean_loss:.2e} accuracy={cur_val_acc*100:.1f}% time= {(time.perf_counter() - val_t0):.2f}s)")
         epoch_metrics = {"train_loss":cur_train_mean_loss, "val_loss": cur_val_mean_loss, 'val_acc':cur_val_acc, 'lr':optimizer.param_groups[0]['lr']}
         fabric.log_dict(epoch_metrics, step=state["iter_num"])
