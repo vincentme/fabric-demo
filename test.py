@@ -62,7 +62,7 @@ def main(fabric, config):
     if checkpoint_file.endswith('.ckpt'):
         fabric.load(checkpoint_file, state)
     elif checkpoint_file.endswith('.pt'):
-        fabric.load(checkpoint_file, model)
+        fabric.load_raw(checkpoint_file, model)
         
     # print and log config
     config.save(os.path.join(config.test_out_dir, "config.yaml"))
